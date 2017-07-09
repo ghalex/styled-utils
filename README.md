@@ -6,7 +6,7 @@
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # Introduction
-`styled-utils` is a collection of utils function for [styled-components](https://github.com/styled-components/styled-components)
+`styled-utils` is a collection of util functions for [styled-components](https://github.com/styled-components/styled-components)
 
 # Installation
 
