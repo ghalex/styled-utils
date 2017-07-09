@@ -23,5 +23,5 @@ export const fromProps = (props) => {
   if (props.isDanger) return 'danger'
   if (props.isGrayscale) return 'grayscale'
 
-  return props.palette || 'white'
+  return props.palette || 'black'
 }
