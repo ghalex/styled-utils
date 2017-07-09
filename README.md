@@ -20,3 +20,49 @@ yarn add styled-utils
 # Usage
 
 Play with it [here](https://www.webpackbin.com/bins/-KocYWcF9u3vyfYcKUcr)
+
+# Example
+
+```javascript
+import React from 'react'
+import styled from 'styled-components'
+import { palette } from 'styled-theme'
+import { fromProps, toPx } from 'styled-utils'
+import { onMobile, onTablet } from 'styled-utils/mq'
+
+// Make window small to test onMobile, onTablet
+const Wrapper = styled.div`
+  border: 1px solid black;
+  padding: ${p => toPx(p.padding) || '10px'};
+  > * { margin: 0 5px; }
+
+  ${onMobile} {
+    border: 1px solid red;
+  }
+
+  ${onTablet} {
+    border: 1px solid blue;
+  }
+`
+
+const Button = styled.a`
+  padding: 10px 15px;
+  border: ${p => p.withBorder ? '1px solid' : '0'};
+  border-color: ${p => palette(fromProps(p), 0)};
+  color: ${palette('grayscale', 0, true)};
+  background-color: ${p => palette(fromProps(p), 1)};
+`
+
+const Main = props => {
+  return (
+    <Wrapper padding={20}>
+      <Button isGrayscale reverse>Click Me</Button>
+      <Button isPrimary>Click Me</Button>
+      <Button isPrimary reverse>Click Me</Button>
+      <Button isSuccess>Click Me</Button>
+    </Wrapper>
+  )
+}
+
+export default Main
+```
