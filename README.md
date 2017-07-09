@@ -19,4 +19,4 @@ yarn add styled-utils
 
 # Usage
 
-Play with it [here](#)
+Play with it [here](https://www.webpackbin.com/bins/-KocYWcF9u3vyfYcKUcr)
