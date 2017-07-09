@@ -13,6 +13,11 @@
     "major": "npm version major && npm publish",
     "prepublish": "npm run build"
   },
+  "files": [
+    "dist",
+    "mq.js",
+    "index.js"
+  ],
   "keywords": [
     "styled-components",
     "utils"
