@@ -1,6 +1,6 @@
 {
   "name": "styled-utils",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "Utilities for styled-components",
   "main": "index.js",
   "scripts": {
@@ -37,6 +37,7 @@
     "standard": "^10.0.2"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "styled-theme": "^0.3.3"
   }
 }
