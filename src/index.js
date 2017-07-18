@@ -29,7 +29,7 @@ export const fromProps = props => {
   return props.palette || 'black'
 }
 
-export const colors = props => {
+export const styleProps = props => {
   let result = {
     isPrimary: props.isPrimary,
     isSecondary: props.isSecondary,
