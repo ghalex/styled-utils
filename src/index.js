@@ -31,6 +31,7 @@ export const fromProps = props => {
 
 export const styleProps = props => {
   let result = {
+    palette: props.palette,
     isPrimary: props.isPrimary,
     isSecondary: props.isSecondary,
     isSuccess: props.isSuccess,
