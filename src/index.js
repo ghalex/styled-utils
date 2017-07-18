@@ -80,11 +80,11 @@ export const bgColor = (p, defaultValue = 'white') => {
   return p.isOutlined ? 'transparent' : palette(paletteName, tone)
 }
 
-export const borderColor = props => {
-  let paletteName = fromProps(props)
+export const borderColor = p => {
+  let paletteName = fromProps(p)
   let tone = isGrayscale(p) ? 1 : 0
 
-  if (isWhite(props)) {
+  if (isWhite(p)) {
     return palette('grayscale', 2)
   }
 
