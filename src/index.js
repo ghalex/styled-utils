@@ -24,11 +24,12 @@ export const fromProps = props => {
   if (props.isDanger) return 'danger'
   if (props.isGrayscale) return 'grayscale'
   if (props.isBlack) return 'black'
+  if (props.isWhite) return 'white'
 
-  return props.palette || 'white'
+  return props.palette || 'black'
 }
 
-export const extractProps = props => {
+export const colors = props => {
   let result = {
     isPrimary: props.isPrimary,
     isSecondary: props.isSecondary,
@@ -43,35 +44,44 @@ export const extractProps = props => {
   return result
 }
 
-export const isWhite = p => fromProps(p) === 'white'
-export const hasBorder = p => isWhite(p) || p.isOutlined
+export const isWhite = p => {
+  return fromProps(p) === 'white'
+}
 
-export const textColor = (props, defaultValue = 'grayscale') => {
+export const isGrayscale = p => {
+  return fromProps(p) === 'grayscale'
+}
+
+export const hasBorder = p => {
+  return isWhite(p) || p.isOutlined
+}
+
+export const textColor = (p, defaultValue = 'grayscale') => {
   let tone = 0
   let paletteName = defaultValue
-  let reverse = !props.isOutlined && !isWhite(props)
+  let reverse = !p.isOutlined && !isWhite(p)
 
-  if (props.isOutlined) {
-    paletteName = fromProps(props)
+  if (p.isOutlined) {
+    paletteName = fromProps(p)
   }
 
-  if (isWhite(props)) {
+  if (isWhite(p)) {
     paletteName = defaultValue
   }
 
   return palette(paletteName, tone, reverse)
 }
 
-export const bgColor = (props, defaultValue = 'white') => {
-  let tone = (props.isGrayscale || props.palette === 'grayscale') ? 1 : 0
-  let paletteName = fromProps(props)
+export const bgColor = (p, defaultValue = 'white') => {
+  let paletteName = fromProps(p)
+  let tone = isGrayscale(p) ? 1 : 0
 
-  return props.isOutlined ? 'transparent' : palette(paletteName, tone)
+  return p.isOutlined ? 'transparent' : palette(paletteName, tone)
 }
 
 export const borderColor = props => {
-  let tone = props.isGrayscale ? 1 : 0
   let paletteName = fromProps(props)
+  let tone = isGrayscale(p) ? 1 : 0
 
   if (isWhite(props)) {
     return palette('grayscale', 2)
