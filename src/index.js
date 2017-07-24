@@ -1,4 +1,4 @@
-import { isNumber } from 'lodash'
+import { isNumber, omit, keys } from 'lodash'
 import { palette } from 'styled-theme'
 
 export const toPx = value => {
@@ -17,32 +17,37 @@ export const toPx = value => {
  *  color: ${p => palette(fromProps(p), 1)};
  * `
  */
-export const fromProps = props => {
-  if (props.isPrimary) return 'primary'
-  if (props.isSecondary) return 'secondary'
-  if (props.isSuccess) return 'success'
-  if (props.isDanger) return 'danger'
-  if (props.isGrayscale) return 'grayscale'
-  if (props.isBlack) return 'black'
-  if (props.isWhite) return 'white'
+export const fromProps = p => {
+  if (p.isPrimary) return 'primary'
+  if (p.isSecondary) return 'secondary'
+  if (p.isSuccess) return 'success'
+  if (p.isDanger) return 'danger'
+  if (p.isGrayscale) return 'grayscale'
+  if (p.isBlack) return 'black'
+  if (p.isWhite) return 'white'
 
-  return props.palette || 'black'
+  return p.palette || 'black'
 }
 
-export const styleProps = props => {
+export const styleProps = p => {
   let result = {
-    palette: props.palette,
-    isPrimary: props.isPrimary,
-    isSecondary: props.isSecondary,
-    isSuccess: props.isSuccess,
-    isDanger: props.isDanger,
-    isGrayscale: props.isGrayscale,
-    isBlack: props.isBlack,
-    isWhite: props.isWhite,
-    reverse: props.reverse
+    palette: p.palette,
+    isPrimary: p.isPrimary,
+    isSecondary: p.isSecondary,
+    isSuccess: p.isSuccess,
+    isDanger: p.isDanger,
+    isGrayscale: p.isGrayscale,
+    isBlack: p.isBlack,
+    isWhite: p.isWhite,
+    isOutlined: p.isOutlined,
+    reverse: p.reverse
   }
 
   return result
+}
+
+export const removeStyleProps = p => {
+  return omit(p, keys(styleProps({})))
 }
 
 export const isWhite = p => {
