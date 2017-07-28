@@ -1,6 +1,29 @@
 import { isNumber, omit, keys } from 'lodash'
 import { palette } from 'styled-theme'
 
+export const is = (options) => (str) => options[str] || false
+export const isOption = (...fn) => (str) => fn.some(element => element(str))
+export const isBetween = (min, max) => (value) => (value >= min && value <= max)
+
+export const isTone = isBetween(0, 4)
+export const isColor = is({
+  primary: true,
+  secondary: true,
+  success: true,
+  danger: true,
+  grayscale: true,
+  black: true,
+  white: true
+})
+
+export const tone = (p, defaultTone = 0) => {
+  return isTone(p.isTone) ? p.isTone : defaultTone
+}
+
+export const color = (p, defaultColor = 'white') => {
+  return isColor(p.isColor) ? palette(p.isColor, tone(p)) : defaultColor
+}
+
 export const toPx = value => {
   if (isNumber(value)) {
     return `${value}px`

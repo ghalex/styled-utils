@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "del": "del",
-    "clean": "npm run del dist",
-    "prebuild": "npm run clean",
+    "clean": "yarn run del dist",
+    "prebuild": "yarn run clean",
     "build": "babel src -d dist",
     "patch": "npm version patch && npm publish",
     "minor": "npm version minor && npm publish",
     "major": "npm version major && npm publish",
-    "prepublish": "npm run build"
+    "prepublish": "yarn run build"
   },
   "files": [
     "dist",
