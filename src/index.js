@@ -48,7 +48,7 @@ const hasTextAlign = ({ hasTextAlign }) => {
   `
 }
 
-const isColor = ({ theme, isColor, isOutlined, isInverted, isTone = 0 }) => {
+const isColor = ({ theme, isColor, isOutlined, isInverted, noHover, isTone = 0 }) => {
   if (!isColor) return
   if (!theme.palettes[isColor]) return
 
@@ -64,19 +64,23 @@ const isColor = ({ theme, isColor, isOutlined, isInverted, isTone = 0 }) => {
   let result = css`
     background-color: ${bgColor};
     color: ${textColor};
-    &:hover {
-      background-color: ${darken(0.1, bgColor)};
-    }
+    ${p => !p.noHover && css`
+      &:hover {
+        background-color: ${darken(0.1, bgColor)};
+      }
+    `}
   `
 
   if (isOutlined) {
     result = css`
       color: ${bgColor};
       border-color: ${bgColor} !important;
-      &:hover {
-        background-color: ${bgColor};
-        color: ${textColor};
-      }
+      ${p => !p.noHover && css`
+        &:hover {
+          background-color: ${bgColor};
+          color: ${textColor};
+        }
+      `}
     `
   }
 
