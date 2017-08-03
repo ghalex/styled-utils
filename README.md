@@ -34,7 +34,7 @@ const Element = styled.a`
   padding: 10px 15px;
   border: 1px solid transparent;
   border-radius: 5px;
-  margin-right: 5px;
+  margin: 0 5px 5px 0;
 `
 
 const Button = combine(Element, [
@@ -64,7 +64,7 @@ const Main = props => {
         <Button isColor='success'>Click Me</Button>
         <Button isColor='danger' isOutlined>Click Me</Button>
         <Button isColor='white' isInverted>Click Me</Button>
-        <Button isColor='primary' isSize='small'>Click Me</Button>
+        <Button isColor='primary' isDisplay='block' isSize='large' hasTextAlign='center'>Click Me</Button>
         <Button isColor='primary' isSize='tiny'>Click Me</Button>
       </div>
     </ThemeProvider>
@@ -72,5 +72,4 @@ const Main = props => {
 }
 
 export default Main
-
 ```
