@@ -50,9 +50,9 @@ const hasTextAlign = ({ hasTextAlign }) => {
 
 const isColor = ({ theme, isColor, isOutlined, isInverted, isTone = 0 }) => {
   if (!isColor) return
-  if (!theme.palette[isColor]) return
+  if (!theme.palettes[isColor]) return
 
-  let palette = theme.palette[isColor]
+  let palette = theme.palettes[isColor]
   let bgColor = palette[isTone]
   let textColor = invert(bgColor)
 
