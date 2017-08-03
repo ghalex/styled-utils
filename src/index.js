@@ -1,147 +1,101 @@
-import { isNumber, omit, keys } from 'lodash'
-import { palette } from 'styled-theme'
+import styled, { css } from 'styled-components'
+import { darken, parseToHsl } from 'polished'
 
 export const is = (options) => (str) => options[str] || false
 export const isOption = (...fn) => (str) => fn.some(element => element(str))
 export const isBetween = (min, max) => (value) => (value >= min && value <= max)
 
-export const isTone = isBetween(0, 4)
-export const isColor = is({
-  primary: true,
-  secondary: true,
-  success: true,
-  danger: true,
-  grayscale: true,
-  black: true,
-  white: true
-})
-
-export const tone = (p, defaultTone = 0) => {
-  return isTone(p.isTone) ? p.isTone : defaultTone
-}
-
-export const color = (p, defaultColor = 'white') => {
-  return isColor(p.isColor) ? palette(p.isColor, tone(p)) : defaultColor
-}
-
-export const toPx = value => {
-  if (isNumber(value)) {
-    return `${value}px`
+export const invert = (color) => {
+  if (parseToHsl(color).lightness > 0.55) {
+    return 'rgba(0, 0, 0, 0.7)'
   }
 
-  return value
+  return '#FFF'
 }
 
-/**
- * Returns the proper palette from props or default to p.palette`
- * @example
- * <Button primary />
- * const Button = styled.button`
- *  color: ${p => palette(fromProps(p), 1)};
- * `
- */
-export const fromProps = p => {
-  if (p.isPrimary) return 'primary'
-  if (p.isSecondary) return 'secondary'
-  if (p.isSuccess) return 'success'
-  if (p.isDanger) return 'danger'
-  if (p.isGrayscale) return 'grayscale'
-  if (p.isBlack) return 'black'
-  if (p.isWhite) return 'white'
+const isHidden = ({ isHidden }) => {
+  if (!isHidden) return
 
-  return p.palette || 'black'
+  return css`
+    display: none;
+  `
 }
 
-export const styleProps = p => {
-  let result = {
-    palette: p.palette,
-    isPrimary: p.isPrimary,
-    isSecondary: p.isSecondary,
-    isSuccess: p.isSuccess,
-    isDanger: p.isDanger,
-    isGrayscale: p.isGrayscale,
-    isBlack: p.isBlack,
-    isWhite: p.isWhite,
-    isOutlined: p.isOutlined,
-    reverse: p.reverse
+const isSize = ({ theme, isSize }) => {
+  if (!isSize) return
+  if (!theme.sizes.font[isSize]) return
+
+  const size = theme.sizes.font[isSize]
+
+  return css`
+    font-size: ${size};
+  `
+}
+
+const hasTextAlign = ({ hasTextAlign }) => {
+  if (!hasTextAlign) return
+
+  return css`
+    text-align: ${hasTextAlign};
+  `
+}
+
+const isColor = ({ theme, isColor, isOutlined, isInverted, isTone = 0 }) => {
+  if (!isColor) return
+  if (!theme.palette[isColor]) return
+
+  let palette = theme.palette[isColor]
+  let bgColor = palette[isTone]
+  let textColor = invert(bgColor)
+
+  if (isInverted) {
+    textColor = palette[isTone]
+    bgColor = invert(textColor)
+  }
+
+  let result = css`
+    background-color: ${bgColor};
+    color: ${textColor};
+    &:hover {
+      background-color: ${darken(0.1, bgColor)};
+    }
+  `
+
+  if (isOutlined) {
+    result = css`
+      color: ${bgColor};
+      border-color: ${bgColor} !important;
+      &:hover {
+        background-color: ${bgColor};
+        color: ${textColor};
+      }
+    `
   }
 
   return result
 }
 
-export const removeStyleProps = p => {
-  return omit(p, keys(styleProps({})))
+export const combine = (Component, f) => {
+  return f.length > 0 ? f.reduce((c, fn) => {
+    let SFC = fn(c)
+
+    SFC.defaultProps = Component.defaultProps
+    SFC.displayName = Component.displayName || Component.name
+
+    return SFC
+  }, Component) : Component
 }
 
-export const isWhite = p => {
-  return fromProps(p) === 'white'
+export const withHelpers = (Component) => {
+  return styled(Component)`
+    ${isHidden}
+    ${isSize}
+    ${hasTextAlign}
+  `
 }
 
-export const isGrayscale = p => {
-  return fromProps(p) === 'grayscale'
-}
-
-export const hasBorder = p => {
-  return isWhite(p) || p.isOutlined
-}
-
-export const textColor = (p, defaultValue = 'grayscale') => {
-  let tone = 0
-  let paletteName = defaultValue
-  let reverse = !p.isOutlined && !isWhite(p)
-
-  if (p.isOutlined) {
-    paletteName = fromProps(p)
-  }
-
-  if (isWhite(p)) {
-    paletteName = defaultValue
-  }
-
-  return palette(paletteName, tone, reverse)
-}
-
-export const bgColor = (p, defaultValue = 'white') => {
-  let paletteName = fromProps(p)
-  let tone = isGrayscale(p) ? 1 : 0
-
-  return p.isOutlined ? 'transparent' : palette(paletteName, tone)
-}
-
-export const borderColor = p => {
-  let paletteName = fromProps(p)
-  let tone = isGrayscale(p) ? 1 : 0
-
-  if (isWhite(p)) {
-    return palette('grayscale', 2)
-  }
-
-  return palette(paletteName, tone)
-}
-
-export const lum = (hex, value) => {
-  hex = String(hex).replace(/[^0-9a-f]/gi, '')
-  if (hex.length < 6) {
-    hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2]
-  }
-  value = value || 0
-
-  var rgb = '#'
-  var c
-  var i
-
-  for (i = 0; i < 3; i++) {
-    c = parseInt(hex.substr(i * 2, 2), 16)
-    c = Math.round(Math.min(Math.max(0, c + c * value), 255)).toString(16)
-    rgb += ('00' + c).substr(c.length)
-  }
-  return rgb
-}
-
-export const darken = (f, value) => {
-  return lum(f(), -value)
-}
-
-export const lighten = (f, value) => {
-  return lum(f(), value)
+export const withColors = (Component) => {
+  return styled(Component)`
+    ${isColor}
+  `
 }

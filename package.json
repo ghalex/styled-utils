@@ -1,6 +1,6 @@
 {
   "name": "styled-utils",
-  "version": "1.1.5",
+  "version": "1.1.7",
   "description": "Utilities for styled-components",
   "main": "index.js",
   "scripts": {
@@ -8,14 +8,10 @@
     "clean": "yarn run del dist",
     "prebuild": "yarn run clean",
     "build": "babel src -d dist",
-    "patch": "npm version patch && npm publish",
-    "minor": "npm version minor && npm publish",
-    "major": "npm version major && npm publish",
-    "prepublish": "yarn run build"
+    "prepare": "yarn run build"
   },
   "files": [
     "dist",
-    "mq.js",
     "index.js"
   ],
   "keywords": [
@@ -38,6 +34,6 @@
   },
   "dependencies": {
     "lodash": "^4.17.4",
-    "styled-theme": "^0.3.3"
+    "polished": "^1.3.0"
   }
 }
