@@ -21,6 +21,14 @@ const isHidden = ({ isHidden }) => {
   `
 }
 
+const isDisplay = ({ isDisplay }) => {
+  if (!isDisplay) return
+
+  return css`
+    display: ${isDisplay};
+  `
+}
+
 const isSize = ({ theme, isSize }) => {
   if (!isSize) return
   if (!theme.sizes.font[isSize]) return
@@ -88,6 +96,7 @@ export const combine = (Component, f) => {
 
 export const withHelpers = (Component) => {
   return styled(Component)`
+    ${isDisplay}
     ${isHidden}
     ${isSize}
     ${hasTextAlign}

@@ -25,12 +25,16 @@ Play with it [here](https://www.webpackbin.com/bins/-KocYWcF9u3vyfYcKUcr)
 
 ```javascript
 import React from 'react'
-import styled from 'styled-components'
+import styled, { ThemeProvider } from 'styled-components'
 import { combine, withHelpers, withColors } from 'styled-utils'
 
 
 const Element = styled.a`
+  display: inline-block;
   padding: 10px 15px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  margin-right: 5px;
 `
 
 const Button = combine(Element, [
@@ -38,16 +42,35 @@ const Button = combine(Element, [
   withColors
 ])
 
+const theme = {}
+
+theme.palette = {
+  primary: ['#1b8ceb', '#106cb9'],
+  success: ['#4caf50', '#388e3c'],
+  danger: ['#e91e63', '#c2185b'],
+  white: ['#fff', '#fff']
+}
+
+theme.sizes = {
+  maxWidth: '600px',
+  font: {tiny: '0.55rem', small: '0.75rem', medium: '1rem', large: '1.25rem', big: '1.5rem', huge: '2rem'}
+}
+
 const Main = props => {
   return (
-    <div>
-      <Button isGrayscale reverse>Click Me</Button>
-      <Button isPrimary>Click Me</Button>
-      <Button isPrimary reverse>Click Me</Button>
-      <Button isSuccess>Click Me</Button>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div>
+        <Button isColor='primary'>Click Me</Button>
+        <Button isColor='success'>Click Me</Button>
+        <Button isColor='danger' isOutlined>Click Me</Button>
+        <Button isColor='white' isInverted>Click Me</Button>
+        <Button isColor='primary' isSize='small'>Click Me</Button>
+        <Button isColor='primary' isSize='tiny'>Click Me</Button>
+      </div>
+    </ThemeProvider>
   )
 }
 
 export default Main
+
 ```
