@@ -1,6 +1,6 @@
 {
   "name": "styled-utils",
-  "version": "1.1.13",
+  "version": "1.1.20",
   "description": "Utilities for styled-components",
   "main": "index.js",
   "scripts": {
