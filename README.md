@@ -26,7 +26,7 @@ Play with it [here](https://www.webpackbin.com/bins/-KocYWcF9u3vyfYcKUcr)
 ```javascript
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { combine, withHelpers, withColors } from 'styled-utils'
+import { withModifiers, helperModifiers, isColor } from 'styled-utils'
 
 
 const Element = styled.a`
@@ -37,9 +37,9 @@ const Element = styled.a`
   margin: 0 5px 5px 0;
 `
 
-const Button = combine(Element, [
-  withHelpers,
-  withColors
+const Button = withModifiers(Element, [
+  ...helperModifiers,
+  isColor
 ])
 
 const theme = {}
