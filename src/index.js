@@ -48,6 +48,15 @@ const hasTextAlign = ({ hasTextAlign }) => {
   `
 }
 
+const isCircular = ({ isCircular }) => {
+  if (!isCircular) return
+
+  return css`
+    border: 1px solid;
+    border-radius: 999px;
+  `
+}
+
 const isColor = ({ theme, isColor, isOutlined, isInverted, noHover, isTone = 0 }) => {
   if (!isColor) return
   if (!theme.palettes[isColor]) return
@@ -103,6 +112,7 @@ export const withHelpers = (Component) => {
     ${isDisplay}
     ${isHidden}
     ${isSize}
+    ${isCircular}
     ${hasTextAlign}
   `
 }
