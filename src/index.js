@@ -74,7 +74,7 @@ export const isCircular = ({ isCircular }) => {
   if (!isCircular) return
 
   return css`
-    border: 1px solid;
+    border: 1px solid transparent;
     border-radius: 999px;
   `
 }
