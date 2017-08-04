@@ -125,11 +125,27 @@ export const isColor = (props) => {
   return result
 }
 
+const isPaddingless = ({ isPaddingless }) => {
+  if (!isPaddingless) return
+  return css`
+    padding: 0 !important;
+  `
+}
+
+const isMarginless = ({ isMarginless }) => {
+  if (!isMarginless) return
+  return css`
+    margin: 0 !important;
+  `
+}
+
 export const helperModifiers = [
   isDisplay,
   isHidden,
   isSize,
   isCircular,
+  isPaddingless,
+  isMarginless,
   hasTextAlign
 ]
 
