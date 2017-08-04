@@ -1,9 +1,17 @@
 import styled, { css } from 'styled-components'
-import { darken, parseToHsl } from 'polished'
+import { darken, lighten, parseToHsl } from 'polished'
 
 export const is = (options) => (str) => options[str] || false
 export const isOption = (...fn) => (str) => fn.some(element => element(str))
 export const isBetween = (min, max) => (value) => (value >= min && value <= max)
+
+export const hover = (color) => {
+  if (parseToHsl(color).lightness > 0.55) {
+    return darken(0.1, color)
+  }
+
+  return lighten(0.1, color)
+}
 
 export const invert = (color) => {
   if (parseToHsl(color).lightness > 0.55) {
@@ -70,12 +78,13 @@ const isColor = ({ theme, isColor, isOutlined, isInverted, noHover, isTone = 0 }
     bgColor = invert(textColor)
   }
 
+  let hoverColor = hover(bgColor)
   let result = css`
     background-color: ${bgColor};
     color: ${textColor};
     ${p => !p.noHover && css`
       &:hover {
-        background-color: ${darken(0.1, bgColor)};
+        background-color: ${hoverColor};
       }
     `}
   `
