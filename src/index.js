@@ -123,7 +123,7 @@ export const isColor = (props) => {
   return result
 }
 
-export const helpersModifiers = [
+export const helperModifiers = [
   isDisplay,
   isHidden,
   isSize,
@@ -138,7 +138,7 @@ export const colorModifiers = [
 
 export const withModifiers = (Component, modifiers) => {
   return styled(Component)`
-    ${p => modifiers.reduce((r, m) => css`
+    ${modifiers.reduce((r, m) => css`
       ${m}
       ${r}
     `)}
