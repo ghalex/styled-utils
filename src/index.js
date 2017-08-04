@@ -80,6 +80,8 @@ export const isCircular = ({ isCircular }) => {
 }
 
 export const isHover = (props) => {
+  if (props.isStatic) return
+
   let [bgColor, textColor] = colors(props)
   let isOutlined = props.isOutlined
 
