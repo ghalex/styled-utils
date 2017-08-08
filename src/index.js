@@ -9,7 +9,7 @@ const hover = (color) => {
   return lighten(0.2, color)
 }
 
-const invert = (color) => {
+export const invert = (color) => {
   if (parseToHsl(color).lightness > 0.55) {
     return 'rgba(0, 0, 0, 0.8)'
   }
