@@ -66,7 +66,6 @@ export const isCircular = ({ isCircular }) => {
   if (!isCircular) return
 
   return css`
-    border: 1px solid transparent;
     border-radius: 999px;
   `
 }
@@ -101,17 +100,10 @@ export const isHover = (props) => {
 export const isColor = (props) => {
   if (props.isOutlined) return
 
-  let { bgColor } = colors(props)
+  let { bgColor, textColor } = colors(props)
 
   return css`
     background-color: ${bgColor};
-  `
-}
-
-export const isTextColor = (props) => {
-  let { textColor } = colors(props)
-
-  return css`
     color: ${textColor};
   `
 }
@@ -152,7 +144,6 @@ export const helperModifiers = [
 
 export const colorModifiers = [
   isColor,
-  isTextColor,
   isOutlined,
   isHover
 ]
