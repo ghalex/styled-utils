@@ -11,13 +11,13 @@ const hover = (color) => {
 
 const invert = (color) => {
   if (parseToHsl(color).lightness > 0.55) {
-    return 'rgba(0, 0, 0, 0.7)'
+    return 'rgba(0, 0, 0, 0.8)'
   }
 
   return '#FFF'
 }
 
-const colors = ({ theme, isColor, isTone = 0, isInverted }) => {
+export const colors = ({ theme, isColor, isTone = 0, isInverted }) => {
   let defaultColors = ['rgba(0,0,0,0)', 'rgba(0,0,0,1)']
 
   if (!isColor) return defaultColors
@@ -32,7 +32,7 @@ const colors = ({ theme, isColor, isTone = 0, isInverted }) => {
     bgColor = invert(textColor)
   }
 
-  return [bgColor, textColor]
+  return { bgColor, textColor }
 }
 
 export const isHidden = ({ isHidden }) => {
@@ -62,14 +62,6 @@ export const isSize = ({ theme, isSize }) => {
   `
 }
 
-export const hasTextAlign = ({ hasTextAlign }) => {
-  if (!hasTextAlign) return
-
-  return css`
-    text-align: ${hasTextAlign};
-  `
-}
-
 export const isCircular = ({ isCircular }) => {
   if (!isCircular) return
 
@@ -82,7 +74,7 @@ export const isCircular = ({ isCircular }) => {
 export const isHover = (props) => {
   if (props.isStatic) return
 
-  let [bgColor, textColor] = colors(props)
+  let { bgColor, textColor } = colors(props)
   let isOutlined = props.isOutlined
 
   let result = css`
@@ -107,22 +99,33 @@ export const isHover = (props) => {
 }
 
 export const isColor = (props) => {
-  let [bgColor, textColor] = colors(props)
-  let isOutlined = props.isOutlined
+  if (props.isOutlined) return
 
-  let result = css`
+  let { bgColor } = colors(props)
+
+  return css`
     background-color: ${bgColor};
+  `
+}
+
+export const isTextColor = (props) => {
+  let { textColor } = colors(props)
+
+  return css`
     color: ${textColor};
   `
+}
 
-  if (isOutlined) {
-    result = css`
-      color: ${bgColor};
-      border-color: ${bgColor} !important;
-    `
-  }
+export const isOutlined = (props) => {
+  if (!props.isOutlined) return
 
-  return result
+  let { bgColor } = colors(props)
+
+  return css`
+    color: ${bgColor};
+    border-color: ${bgColor} !important;
+    background-color: transparent;
+  `
 }
 
 const isPaddingless = ({ isPaddingless }) => {
@@ -142,15 +145,15 @@ const isMarginless = ({ isMarginless }) => {
 export const helperModifiers = [
   isDisplay,
   isHidden,
-  isSize,
   isCircular,
   isPaddingless,
-  isMarginless,
-  hasTextAlign
+  isMarginless
 ]
 
 export const colorModifiers = [
   isColor,
+  isTextColor,
+  isOutlined,
   isHover
 ]
 
