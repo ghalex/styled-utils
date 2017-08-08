@@ -71,7 +71,7 @@ export const isCircular = ({ isCircular }) => {
 }
 
 export const isHover = (props) => {
-  if (props.isStatic) return
+  if (props.isStatic || !props.isColor) return
 
   let { bgColor, textColor } = colors(props)
   let isOutlined = props.isOutlined
@@ -98,7 +98,7 @@ export const isHover = (props) => {
 }
 
 export const isColor = (props) => {
-  if (props.isOutlined) return
+  if (props.isOutlined || !props.isColor) return
 
   let { bgColor, textColor } = colors(props)
 
@@ -109,7 +109,7 @@ export const isColor = (props) => {
 }
 
 export const isOutlined = (props) => {
-  if (!props.isOutlined) return
+  if (!props.isOutlined || !props.isColor) return
 
   let { bgColor } = colors(props)
 
