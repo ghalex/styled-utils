@@ -26,21 +26,21 @@ Play with it [here](https://www.webpackbin.com/bins/-KocYWcF9u3vyfYcKUcr)
 ```javascript
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { withModifiers, helperModifiers, isColor } from 'styled-utils'
+import { withColor, withHover, withSize, isOutlined } from 'styled-utils'
 
 
-const Element = styled.a`
+const Button = styled.a`
   display: inline-block;
   padding: 10px 15px;
   border: 1px solid transparent;
   border-radius: 5px;
   margin: 0 5px 5px 0;
-`
 
-const Button = withModifiers(Element, [
-  ...helperModifiers,
-  isColor
-])
+  ${withColor}
+  ${withHover}
+  ${withSize}
+  ${isOutlined}
+`
 
 const theme = {}
 
@@ -60,12 +60,12 @@ const Main = props => {
   return (
     <ThemeProvider theme={theme}>
       <div>
-        <Button isColor='primary'>Click Me</Button>
-        <Button isColor='success'>Click Me</Button>
-        <Button isColor='danger' isOutlined>Click Me</Button>
-        <Button isColor='white' isInverted>Click Me</Button>
-        <Button isColor='primary' isDisplay='block' isSize='large' hasTextAlign='center'>Click Me</Button>
-        <Button isColor='primary' isSize='tiny'>Click Me</Button>
+        <Button withColor='primary'>Click Me</Button>
+        <Button withColor='success'>Click Me</Button>
+        <Button withColor='danger' isOutlined>Click Me</Button>
+        <Button withColor='white' isInverted>Click Me</Button>
+        <Button withColor='primary' withDisplay='block' withSize='large'>Click Me</Button>
+        <Button withColor='primary' withSize='tiny'>Click Me</Button>
       </div>
     </ThemeProvider>
   )

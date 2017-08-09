@@ -17,13 +17,13 @@ export const invert = (color) => {
   return '#FFF'
 }
 
-export const colors = ({ theme, isColor, isTone = 0, isInverted }) => {
+export const colors = ({ theme, withColor, isTone = 0, isInverted }) => {
   let defaultColors = ['rgba(0,0,0,0)', 'rgba(0,0,0,1)']
 
-  if (!isColor) return defaultColors
-  if (!theme.palettes[isColor]) return defaultColors
+  if (!withColor) return defaultColors
+  if (!theme.palettes[withColor]) return defaultColors
 
-  let palette = theme.palettes[isColor]
+  let palette = theme.palettes[withColor]
   let bgColor = palette[isTone]
   let textColor = invert(bgColor)
 
@@ -43,25 +43,6 @@ export const isHidden = ({ isHidden }) => {
   `
 }
 
-export const isDisplay = ({ isDisplay }) => {
-  if (!isDisplay) return
-
-  return css`
-    display: ${isDisplay};
-  `
-}
-
-export const isSize = ({ theme, isSize }) => {
-  if (!isSize) return
-  if (!theme.sizes.font[isSize]) return
-
-  const size = theme.sizes.font[isSize]
-
-  return css`
-    font-size: ${size};
-  `
-}
-
 export const isCircular = ({ isCircular }) => {
   if (!isCircular) return
 
@@ -70,8 +51,52 @@ export const isCircular = ({ isCircular }) => {
   `
 }
 
-export const isHover = (props) => {
-  if (props.isStatic || !props.isColor) return
+export const isOutlined = (props) => {
+  if (!props.isOutlined || !props.withColor) return
+
+  let { bgColor } = colors(props)
+
+  return css`
+    color: ${bgColor};
+    border-color: ${bgColor} !important;
+  `
+}
+
+export const isPaddingless = ({ isPaddingless }) => {
+  if (!isPaddingless) return
+  return css`
+    padding: 0 !important;
+  `
+}
+
+export const isMarginless = ({ isMarginless }) => {
+  if (!isMarginless) return
+  return css`
+    margin: 0 !important;
+  `
+}
+
+export const withDisplay = ({ withDisplay }) => {
+  if (!withDisplay) return
+
+  return css`
+    display: ${withDisplay};
+  `
+}
+
+export const withSize = ({ theme, withSize }) => {
+  if (!withSize) return
+  if (!theme.sizes.font[withSize]) return
+
+  const size = theme.sizes.font[withSize]
+
+  return css`
+    font-size: ${size};
+  `
+}
+
+export const withHover = (props) => {
+  if (props.isStatic || !props.withColor) return
 
   let { bgColor, textColor } = colors(props)
   let isOutlined = props.isOutlined
@@ -97,8 +122,8 @@ export const isHover = (props) => {
   return result
 }
 
-export const isColor = (props) => {
-  if (props.isOutlined || !props.isColor) return
+export const withColor = (props) => {
+  if (props.isOutlined || !props.withColor) return
 
   let { bgColor, textColor } = colors(props)
 
@@ -108,44 +133,18 @@ export const isColor = (props) => {
   `
 }
 
-export const isOutlined = (props) => {
-  if (!props.isOutlined || !props.isColor) return
-
-  let { bgColor } = colors(props)
-
-  return css`
-    color: ${bgColor};
-    border-color: ${bgColor} !important;
-    background-color: transparent;
-  `
-}
-
-const isPaddingless = ({ isPaddingless }) => {
-  if (!isPaddingless) return
-  return css`
-    padding: 0 !important;
-  `
-}
-
-const isMarginless = ({ isMarginless }) => {
-  if (!isMarginless) return
-  return css`
-    margin: 0 !important;
-  `
-}
-
 export const helperModifiers = [
-  isDisplay,
   isHidden,
   isCircular,
   isPaddingless,
-  isMarginless
+  isMarginless,
+  withDisplay
 ]
 
 export const colorModifiers = [
-  isColor,
   isOutlined,
-  isHover
+  withColor,
+  withHover
 ]
 
 export const withModifiers = (Component, modifiers) => {
