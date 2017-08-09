@@ -17,18 +17,18 @@ export const invert = (color) => {
   return '#FFF'
 }
 
-export const colors = ({ theme, withColor, isTone = 0, isInverted }) => {
+export const colors = ({ theme, withColor, withTone = 0, isInverted }) => {
   let defaultColors = ['rgba(0,0,0,0)', 'rgba(0,0,0,1)']
 
   if (!withColor) return defaultColors
   if (!theme.palettes[withColor]) return defaultColors
 
   let palette = theme.palettes[withColor]
-  let bgColor = palette[isTone]
+  let bgColor = palette[withTone]
   let textColor = invert(bgColor)
 
   if (isInverted) {
-    textColor = palette[isTone]
+    textColor = palette[withTone]
     bgColor = invert(textColor)
   }
 
