@@ -26,25 +26,31 @@ Play with it [here](https://www.webpackbin.com/bins/-KocYWcF9u3vyfYcKUcr)
 ```javascript
 import React from 'react'
 import styled, { ThemeProvider } from 'styled-components'
-import { withColor, withHover, withSize, isOutlined } from 'styled-utils'
+import { withColor, withHover, withSize, withDisplay, isOutlined } from 'styled-utils'
 
 
 const Button = styled.a`
-  display: inline-block;
-  padding: 10px 15px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1.5em;
+  height: 2.25em;
   border: 1px solid transparent;
   border-radius: 5px;
   margin: 0 5px 5px 0;
+  cursor: pointer;
+  text-align: center;
 
   ${withColor}
   ${withHover}
   ${withSize}
+  ${withDisplay}
   ${isOutlined}
 `
 
 const theme = {}
 
-theme.palette = {
+theme.palettes = {
   primary: ['#1b8ceb', '#106cb9'],
   success: ['#4caf50', '#388e3c'],
   danger: ['#e91e63', '#c2185b'],
@@ -64,7 +70,7 @@ const Main = props => {
         <Button withColor='success'>Click Me</Button>
         <Button withColor='danger' isOutlined>Click Me</Button>
         <Button withColor='white' isInverted>Click Me</Button>
-        <Button withColor='primary' withDisplay='block' withSize='large'>Click Me</Button>
+        <Button withColor='primary' withDisplay='flex' withSize='large'>Click Me</Button>
         <Button withColor='primary' withSize='tiny'>Click Me</Button>
       </div>
     </ThemeProvider>
