@@ -51,17 +51,6 @@ export const isCircular = ({ isCircular }) => {
   `
 }
 
-export const isOutlined = (props) => {
-  if (!props.isOutlined || !props.withColor) return
-
-  let { bgColor } = colors(props)
-
-  return css`
-    color: ${bgColor};
-    border-color: ${bgColor} !important;
-  `
-}
-
 export const isPaddingless = ({ isPaddingless }) => {
   if (!isPaddingless) return
   return css`
@@ -123,9 +112,16 @@ export const withHover = (props) => {
 }
 
 export const withColor = (props) => {
-  if (props.isOutlined || !props.withColor) return
+  if (!props.withColor) return
 
   let { bgColor, textColor } = colors(props)
+
+  if (props.isOutlined) {
+    return css`
+      color: ${bgColor};
+      border-color: ${bgColor} !important;
+  `
+  }
 
   return css`
     background-color: ${bgColor};
@@ -142,7 +138,6 @@ export const helperModifiers = [
 ]
 
 export const colorModifiers = [
-  isOutlined,
   withColor,
   withHover
 ]
