@@ -17,18 +17,18 @@ export const invert = (color) => {
   return '#FFF'
 }
 
-export const colors = ({ theme, withColor, withTone = 0, isInverted }) => {
-  let defaultColors = ['rgba(0,0,0,0)', 'rgba(0,0,0,1)']
+export const colors = ({ theme, color, tone = 0, isInverted }) => {
+  let defaultColors = { bgColor: 'black', textColor: 'white' }
 
-  if (!withColor) return defaultColors
-  if (!theme.palettes[withColor]) return defaultColors
+  if (!color) return defaultColors
+  if (!theme.palettes[color]) return defaultColors
 
-  let palette = theme.palettes[withColor]
-  let bgColor = palette[withTone]
+  let palette = theme.palettes[color]
+  let bgColor = palette[tone]
   let textColor = invert(bgColor)
 
   if (isInverted) {
-    textColor = palette[withTone]
+    textColor = palette[tone]
     bgColor = invert(textColor)
   }
 
@@ -65,30 +65,28 @@ export const isMarginless = ({ isMarginless }) => {
   `
 }
 
-export const withDisplay = ({ withDisplay }) => {
-  if (!withDisplay) return
+export const withDisplay = ({ display }) => {
+  if (!display) return
 
   return css`
-    display: ${withDisplay};
+    display: ${display};
   `
 }
 
-export const withSize = ({ theme, withSize }) => {
-  if (!withSize) return
-  if (!theme.sizes.font[withSize]) return
-
-  const size = theme.sizes.font[withSize]
+export const withSize = ({ theme, size }) => {
+  if (!size) return
+  if (!theme.sizes.font[size]) return
 
   return css`
-    font-size: ${size};
+    font-size: ${theme.sizes.font[size]};
   `
 }
 
-export const withHover = (props) => {
-  if (props.isStatic || !props.withColor) return
+export const withHover = p => {
+  if (p.isStatic || !p.color) return
 
-  let { bgColor, textColor } = colors(props)
-  let isOutlined = props.isOutlined
+  let { bgColor, textColor } = colors(p)
+  let isOutlined = p.isOutlined
 
   let result = css`
     &:hover {
@@ -111,12 +109,22 @@ export const withHover = (props) => {
   return result
 }
 
-export const withColor = (props) => {
-  if (!props.withColor) return
+export const bgColor = (p) => {
+  if (!p.color) return
+  return colors(p).bgColor
+}
 
-  let { bgColor, textColor } = colors(props)
+export const textColor = (p) => {
+  if (!p.color) return
+  return colors(p).textColor
+}
 
-  if (props.isOutlined) {
+export const withColor = (p) => {
+  if (!p.color) return
+
+  let { bgColor, textColor } = colors(p)
+
+  if (p.isOutlined) {
     return css`
       color: ${bgColor};
       border-color: ${bgColor} !important;

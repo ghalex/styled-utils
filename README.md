@@ -66,12 +66,12 @@ const Main = props => {
   return (
     <ThemeProvider theme={theme}>
       <div>
-        <Button withColor='primary'>Click Me</Button>
-        <Button withColor='success'>Click Me</Button>
-        <Button withColor='danger' isOutlined>Click Me</Button>
-        <Button withColor='white' isInverted>Click Me</Button>
-        <Button withColor='primary' withDisplay='flex' withSize='large'>Click Me</Button>
-        <Button withColor='primary' withSize='tiny'>Click Me</Button>
+        <Button color='primary'>Click Me</Button>
+        <Button color='success'>Click Me</Button>
+        <Button color='danger' isOutlined>Click Me</Button>
+        <Button color='white' isInverted>Click Me</Button>
+        <Button color='primary' display='flex' size='large'>Click Me</Button>
+        <Button color='primary' size='tiny'>Click Me</Button>
       </div>
     </ThemeProvider>
   )
