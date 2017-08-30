@@ -87,16 +87,17 @@ export const withHover = p => {
 
   let { bgColor, textColor } = colors(p)
   let isOutlined = p.isOutlined
+  let selector = p.isHover ? '&' : '&:hover'
 
   let result = css`
-    &:hover {
+    ${selector} {
       background-color: ${hover(bgColor)};
     }
   `
 
   if (isOutlined) {
     result = css`
-      &:hover {
+      ${selector} {
         background-color: ${bgColor};
         color: ${textColor};
         & .icon {
