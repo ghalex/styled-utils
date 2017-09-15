@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 import { darken, lighten, parseToHsl } from 'polished'
 
-const hover = (color) => {
+export const hover = (color) => {
   if (parseToHsl(color).lightness > 0.2) {
     return darken(0.1, color)
   }
