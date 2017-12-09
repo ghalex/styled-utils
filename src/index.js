@@ -1,39 +1,5 @@
-import styled, { css } from 'styled-components'
-import { darken, lighten, parseToHsl } from 'polished'
-
-export const hover = (color) => {
-  if (parseToHsl(color).lightness > 0.2) {
-    return darken(0.1, color)
-  }
-
-  return lighten(0.2, color)
-}
-
-export const invert = (color) => {
-  if (parseToHsl(color).lightness > 0.55) {
-    return 'rgba(0, 0, 0, 0.8)'
-  }
-
-  return '#FFF'
-}
-
-export const colors = ({ theme, color, tone = 0, isInverted }) => {
-  let defaultColors = { bgColor: 'black', textColor: 'white' }
-
-  if (!color) return defaultColors
-  if (!theme.palettes[color]) return defaultColors
-
-  let palette = theme.palettes[color]
-  let bgColor = palette[tone]
-  let textColor = invert(bgColor)
-
-  if (isInverted) {
-    textColor = palette[tone]
-    bgColor = invert(textColor)
-  }
-
-  return { bgColor, textColor }
-}
+import { css } from 'styled-components'
+import * as color from './color'
 
 export const isHidden = ({ isHidden }) => {
   if (!isHidden) return
@@ -85,13 +51,14 @@ export const withSize = ({ theme, size }) => {
 export const withHover = p => {
   if (p.isStatic || !p.color) return
 
-  let { bgColor, textColor } = colors(p)
+  let bgColor = color.bg(p)
+  let textColor = color.text(p)
   let isOutlined = p.isOutlined
   let selector = p.isHover ? '&' : '&:hover'
 
   let result = css`
     ${selector} {
-      background-color: ${hover(bgColor)};
+      background-color: ${color.hover(bgColor)};
     }
   `
 
@@ -110,20 +77,11 @@ export const withHover = p => {
   return result
 }
 
-export const bgColor = (p) => {
-  if (!p.color) return
-  return colors(p).bgColor
-}
-
-export const textColor = (p) => {
-  if (!p.color) return
-  return colors(p).textColor
-}
-
 export const withColor = (p) => {
   if (!p.color) return
 
-  let { bgColor, textColor } = colors(p)
+  let bgColor = color.bg(p)
+  let textColor = color.text(p)
 
   if (p.isOutlined) {
     return css`
@@ -135,27 +93,5 @@ export const withColor = (p) => {
   return css`
     background-color: ${bgColor};
     color: ${textColor};
-  `
-}
-
-export const helperModifiers = [
-  isHidden,
-  isCircular,
-  isPaddingless,
-  isMarginless,
-  withDisplay
-]
-
-export const colorModifiers = [
-  withColor,
-  withHover
-]
-
-export const withModifiers = (Component, modifiers) => {
-  return styled(Component)`
-    ${modifiers.reduce((r, m) => css`
-      ${m}
-      ${r}
-    `)}
   `
 }
