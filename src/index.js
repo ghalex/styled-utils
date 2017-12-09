@@ -41,10 +41,10 @@ export const withDisplay = ({ display }) => {
 
 export const withSize = ({ theme, size }) => {
   if (!size) return
-  if (!theme.sizes.font[size]) return
+  if (!theme.sizes[size]) return
 
   return css`
-    font-size: ${theme.sizes.font[size]};
+    font-size: ${theme.sizes[size]};
   `
 }
 
