@@ -86,6 +86,7 @@ export const withColor = (p) => {
   if (p.isOutlined) {
     return css`
       color: ${bgColor};
+      border: 1px solid;
       border-color: ${bgColor} !important;
   `
   }
